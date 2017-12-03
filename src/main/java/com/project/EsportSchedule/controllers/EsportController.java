@@ -19,16 +19,19 @@ public class EsportController {
 		service = workingService;
 	}
 	
+	//GET all esports
 	@RequestMapping(value = "/sports", method = RequestMethod.GET)
 	public ResponseEntity<?> getAllSports () {
 		return service.getAllSports();
 	}
 	
+	//GET esport by id
 	@RequestMapping(value = "/sports", method = RequestMethod.GET, params = "id")
 	public ResponseEntity<?> getSportById (@RequestParam(value = "id", defaultValue = "0") int id) {
 		return service.getSportById(id);
 	}
 	
+	//GET esport by name
 	@RequestMapping(value = "/sports", method = RequestMethod.GET, params = "name")
 	public ResponseEntity<?> getSportByName(@RequestParam(value = "name", defaultValue = "") String name) {
 		return service.getSportByName(name);
