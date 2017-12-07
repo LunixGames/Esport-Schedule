@@ -17,12 +17,12 @@ import com.project.EsportSchedule.data.SportsDAO;
 @ComponentScan(basePackages="com.project.EsportSchedule")
 //@EnableWebMvc
 public class Configuration extends WebMvcConfigurerAdapter {
-	
+
 	@Bean
     public ISportsDAO getDataSourceInstance() {
 			return new SportsDAO(getDataSource());
     }
-	
+
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -32,11 +32,11 @@ public class Configuration extends WebMvcConfigurerAdapter {
         //dataSource.setPassword("P@ssw0rd");
         return dataSource;
     }
-    
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
         	.addResourceHandler("/**")
-        	.addResourceLocations("file:src/main/resources/static/");
+        	.addResourceLocations("file:src/main/resources/static/frontend/");
      }
 }
