@@ -1,7 +1,7 @@
-all: build-docker build-server build-ui
+all: build-docker build-docker-compose build-api build-ui
 
-server:
-	docker run --rm -v "${CURDIR}":/opt/app -p 8080:8080 es-app
+up:
+	docker-compose up
 
 build-ui:
 	 docker run --rm -it -v "${CURDIR}":/opt/app -w /opt/app/frontend es-app /bin/bash \
@@ -11,7 +11,10 @@ build-api:
 	docker run --rm -it -v "${CURDIR}":/opt/app -w /opt/app es-app mvn package
 
 build-docker:
-	docker build . -t es-app
+	docker build ./docker/backend -t es-app
+
+build-docker-compose:
+	docker-compose build
 
 docker-stop:
 	docker stop $(shell docker ps -q)
