@@ -1,4 +1,4 @@
-all: build-docker build-docker-compose build-api build-ui
+all: build-docker build-docker-compose build-ui build-api
 
 up:
 	docker-compose up
