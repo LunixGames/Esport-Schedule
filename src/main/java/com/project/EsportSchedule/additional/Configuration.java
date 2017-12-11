@@ -8,6 +8,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.project.EsportSchedule.data.EventsDAO;
+import com.project.EsportSchedule.data.IEventsDAO;
 import com.project.EsportSchedule.data.ISportsDAO;
 import com.project.EsportSchedule.data.SportsDAO;
 
@@ -33,6 +36,11 @@ public class Configuration extends WebMvcConfigurerAdapter {
 	@Bean
     public ISportsDAO getDataSourceInstance() {
 			return new SportsDAO(getDataSource());
+    }
+	
+	@Bean
+    public IEventsDAO getDataSourceEventsInstance() {
+			return new EventsDAO(getDataSource());
     }
 
     @Bean

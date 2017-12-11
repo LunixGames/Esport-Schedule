@@ -17,7 +17,7 @@ public class SportsDAO implements ISportsDAO {
 	
 	@Override
 	public List<Sport> getAllSports() {
-		String sql = "SELECT * FROM sports";
+		String sql = "SELECT * FROM esports";
 		List<Sport> foundSports = jdbc.query(sql,new SportsRowMapper());
 		return foundSports;
 	}

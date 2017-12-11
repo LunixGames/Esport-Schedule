@@ -11,8 +11,8 @@ public class SportsRowMapper implements RowMapper<Sport>{
 	@Override
 	public Sport mapRow(ResultSet rs, int row) throws SQLException {
 		Sport s = new Sport();
-		s.setId(rs.getInt("sport_id"));
-		s.setName(rs.getString("sport_name"));
+		s.setId(rs.getInt("id"));
+		s.setName(rs.getString("name"));
 		return s;
 	}
 
