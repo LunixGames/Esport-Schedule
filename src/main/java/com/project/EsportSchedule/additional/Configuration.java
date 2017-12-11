@@ -1,35 +1,47 @@
 package com.project.EsportSchedule.additional;
 
 import javax.sql.DataSource;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-//import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-//import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
 import com.project.EsportSchedule.data.ISportsDAO;
 import com.project.EsportSchedule.data.SportsDAO;
 
 @org.springframework.context.annotation.Configuration
+@PropertySource("file:src/main/resources/env.properties")
 @ComponentScan(basePackages="com.project.EsportSchedule")
-//@EnableWebMvc
-public class Configuration extends WebMvcConfigurerAdapter {
+public class Configuration extends WebMvcConfigurerAdapter {	
+	@Value("${DATABASE_DB}")
+	private String dbName;
+	
+	@Value("${DATABASE_USER}")
+	private String dbUserName;
 
+	@Value("${DATABASE_PASSWORD}")
+	private String dbUserPassword;
+	
+	@Value("${DATABASE_PORT}")
+	private String dbPort;
+	
+	@Value("${DATABASE_HOST}")
+	private String dbHost;
+	
 	@Bean
     public ISportsDAO getDataSourceInstance() {
 			return new SportsDAO(getDataSource());
     }
 
     @Bean
-    public DataSource getDataSource() {
+    public DataSource getDataSource() {    	
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://database:3306/esport_schedule");
-        dataSource.setUsername("esport_schedule");
-        dataSource.setPassword("esport_schedule");
+        dataSource.setUrl("jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName);
+        dataSource.setUsername(dbUserName);
+        dataSource.setPassword(dbUserPassword);
         return dataSource;
     }
 
