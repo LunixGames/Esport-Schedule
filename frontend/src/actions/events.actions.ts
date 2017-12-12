@@ -23,4 +23,4 @@ export class LoadEventsFailureAction implements Action {
 export type All
 = LoadEventsAction
 | LoadEventsSuccessAction
-| LoadEventsFailureAction
+| LoadEventsFailureAction;
