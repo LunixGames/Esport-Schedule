@@ -1,10 +1,6 @@
 package com.project.EsportSchedule.services;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,23 +28,31 @@ public class EventsService implements IEventsService {
 	}
 
 	@Override
-	public ResponseEntity<?> getAllEventsByDate(String date) {
-		String newDate = date;
-		if(newDate.length() < 8)
-			newDate += "01";
+	public ResponseEntity<?> getAllEventsByDate(int date, String name) {
+		String newDate = Integer.toString(date);
+		String esportName = null;
 		
-		try {
-			new SimpleDateFormat("YYYYMMDD").parse(newDate);
-			
-		} catch (ParseException e) {
+		if(newDate.length() != 4 && newDate.length() != 6 && newDate.length() != 8) {
 			return new ResponseEntity<String>("Invalid date format",HttpStatus.BAD_REQUEST);
 		}
 		
-		List<Event> allEvents = database.getAllEventsByDate(date);
+		if(name != null && name.length() > 0) {
+			for(String s : name.split(",")) {
+				try {
+					int id = Integer.parseInt(s);
+					
+					if(esportName != null && esportName.length() > 0) {
+						esportName += "," + Integer.toString(id);
+					} else {
+						esportName = Integer.toString(id);
+					}
+				} catch (NumberFormatException e) {
+					return new ResponseEntity<String>("Invalid esports format",HttpStatus.BAD_REQUEST);
+				}
+			}
+		}
 		
-		if(allEvents == null)
-			return new ResponseEntity<List<Event>>(allEvents,HttpStatus.OK);
-		
+		List<Event> allEvents = database.getAllEventsByDate(date, esportName);
 		return new ResponseEntity<List<Event>>(allEvents,HttpStatus.OK);
 	}
 

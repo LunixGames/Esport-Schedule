@@ -24,7 +24,8 @@ public class EventsController {
 	}
 	
 	@RequestMapping(value = "/events",params = "date",method = RequestMethod.GET)
-	public ResponseEntity<?> getAllEventsByDate(@RequestParam(value = "date",defaultValue = "0") String date) {
-		return service.getAllEventsByDate(date);
+	public ResponseEntity<?> getAllEventsByDate(@RequestParam(value = "date",defaultValue = "0") int date,
+			@RequestParam(value = "esports", defaultValue = "") String name) {
+		return service.getAllEventsByDate(date, name);
 	}
 }

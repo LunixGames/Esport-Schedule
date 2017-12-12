@@ -4,5 +4,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface IEventsService {
 	public ResponseEntity<?> getAllEvents();
-	public ResponseEntity<?> getAllEventsByDate(String date);
+	public ResponseEntity<?> getAllEventsByDate(int date, String name);
 }
