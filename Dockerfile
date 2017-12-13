@@ -6,7 +6,7 @@ WORKDIR /opt/app
 
 RUN dnf update -y && dnf install -y java-1.8.0-openjdk maven && \
     curl --silent --location https://rpm.nodesource.com/setup_8.x | bash - && \
-    dnf install -y nodejs \
+    dnf install -y nodejs && \
     dnf clean all
 
 RUN mvn package && \
