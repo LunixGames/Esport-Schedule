@@ -12,7 +12,7 @@ RUN dnf update -y && dnf install -y java-1.8.0-openjdk maven && \
 RUN cd ./frontend && \
     npm install && ./node_modules/.bin/ng build -prod --output-path ../src/main/resources/static/frontend && \
     cd .. && \
-    cp env-example src/main/resources/env.properties && \
+    cp env.example src/main/resources/env.properties && \
     mvn package
 
 EXPOSE 8080
