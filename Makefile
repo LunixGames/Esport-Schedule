@@ -1,20 +1,11 @@
-all: build-docker build-docker-compose build-ui build-api
 
-up:
-	docker-compose up
+IMAGE_NAME = esport-schedule
 
-build-ui:
-	 docker run --rm -it -v "${CURDIR}":/opt/app -w /opt/app/frontend es-app /bin/bash \
-	 -c "npm install; ./node_modules/.bin/ng build --output-path ../src/main/resources/static/frontend"
+.PHONY: build
+build:
+	docker build -t $(IMAGE_NAME) .
 
-build-api:
-	docker run --rm -it -v "${CURDIR}":/opt/app -w /opt/app es-app mvn package
-
-build-docker:
-	docker build ./docker/backend -t es-app
-
-build-docker-compose:
-	docker-compose build
-
-docker-stop:
-	docker stop $(shell docker ps -q)
+.PHONY: test
+test:
+	docker build -t $(IMAGE_NAME)-candidate .
+	IMAGE_NAME=$(IMAGE_NAME)-candidate test/run

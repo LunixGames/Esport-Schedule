@@ -1,20 +1,28 @@
-FROM fedora:27
 
-ADD . /opt/app
+# esport-schedule
+FROM openshift/base-centos7
 
-WORKDIR /opt/app
+ENV ESPORT_SCHEDULE 1.0
 
-RUN dnf update -y && dnf install -y java-1.8.0-openjdk maven && \
-    curl --silent --location https://rpm.nodesource.com/setup_8.x | bash - && \
-    dnf install -y nodejs && \
-    dnf clean all
+LABEL maintainer="luladjiev@gmail.com" \
+      io.k8s.description="Platform for building Spring.io project" \
+      io.k8s.display-name="Esport-Schedule builder" \
+      io.openshift.expose-services="8080:http"
+#      io.openshift.tags="builder,x.y.z,etc."
 
-RUN cd ./frontend && \
-    npm install && ./node_modules/.bin/ng build -prod --output-path ../src/main/resources/static/frontend && \
-    cd .. && \
-    cp env.example src/main/resources/env.properties && \
-    mvn package
+RUN curl --silent --location https://rpm.nodesource.com/setup_8.x | bash - && \
+    yum install -y java-1.8.0-openjdk maven nodejs && \
+    yum clean all -y
+
+# TODO (optional): Copy the builder files into /opt/app-root
+# COPY ./<builder_folder>/ /opt/app-root/
+
+COPY ./s2i/bin/ /usr/libexec/s2i
+
+RUN chown -R 1001:1001 /opt/app-root
+
+USER 1001
 
 EXPOSE 8080
 
-CMD java -jar target/EsportSchedule-0.0.1-SNAPSHOT.jar
+ CMD ["/usr/libexec/s2i/usage"]
