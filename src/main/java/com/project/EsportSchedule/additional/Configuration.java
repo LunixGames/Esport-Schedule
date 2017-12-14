@@ -7,12 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import com.project.EsportSchedule.data.EventsDAO;
-import com.project.EsportSchedule.data.IEventsDAO;
-import com.project.EsportSchedule.data.ISportsDAO;
-import com.project.EsportSchedule.data.SportsDAO;
 
 @org.springframework.context.annotation.Configuration
 @PropertySource("file:src/main/resources/env.properties")
@@ -32,19 +28,9 @@ public class Configuration extends WebMvcConfigurerAdapter {
 	
 	@Value("${DATABASE_HOST}")
 	private String dbHost;
-	
-	@Bean
-    public ISportsDAO getDataSourceInstance() {
-			return new SportsDAO(getDataSource());
-    }
-	
-	@Bean
-    public IEventsDAO getDataSourceEventsInstance() {
-			return new EventsDAO(getDataSource());
-    }
 
     @Bean
-    public DataSource getDataSource() {    	
+    public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName);
@@ -59,4 +45,9 @@ public class Configuration extends WebMvcConfigurerAdapter {
         	.addResourceHandler("/**")
         	.addResourceLocations("file:src/main/resources/static/frontend/");
      }
+    
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("forward:/index.html");
+    }
 }

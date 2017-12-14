@@ -3,10 +3,11 @@ package com.project.EsportSchedule.data;
 import java.util.List;
 
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import com.project.EsportSchedule.models.Event;
 
+@Component
 public class EventsDAO implements IEventsDAO {
 	private JdbcTemplate jdbc;
 	private final String SELECT_EVENTS = "SELECT e.id AS id,e.event_time AS eventTime,s.name AS esportName,l.name AS leagueName,t1.name AS teamOne,t2.name AS teamTwo "
@@ -17,7 +18,6 @@ public class EventsDAO implements IEventsDAO {
 			+ "JOIN teams t2 ON e.id_team_two = t2.id AND t2.deleted = 0 "
 			+ "WHERE e.deleted = 0 ";
 	
-	@Autowired
 	public EventsDAO(DataSource sorce) {
 		jdbc = new JdbcTemplate(sorce);
 	}
@@ -32,7 +32,7 @@ public class EventsDAO implements IEventsDAO {
 	}
 
 	@Override
-	public List<Event> getAllEventsByDate(int date, String name) {
+	public List<Event> getAllEventsByDate(int date, String ids) {
 		List<Event> allEvents;
 		String dateString = Integer.toString(date);
 		String sql = SELECT_EVENTS;
@@ -44,8 +44,8 @@ public class EventsDAO implements IEventsDAO {
 					sql += "AND DATE_FORMAT(e.event_time, '%Y%m%d') = '" + date + "' ";
 				}
 				
-				if(name != null) {
-					sql += "AND e.id_esport IN(" + name + ")";
+				if(ids != null) {
+					sql += "AND e.id_esport IN(" + ids + ")";
 				}
 				sql += "ORDER BY e.event_time ASC";
 		allEvents = jdbc.query(sql, new EventsRowMapper());

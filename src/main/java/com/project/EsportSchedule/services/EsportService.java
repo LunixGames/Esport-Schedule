@@ -1,7 +1,6 @@
 package com.project.EsportSchedule.services;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +14,16 @@ public class EsportService implements IEsportService {
 	private ISportsDAO database;
 	
 	@Autowired
-	public EsportService(ISportsDAO sportsDao) {
-		database = sportsDao;
+	public EsportService(ISportsDAO sportsDAO) {
+		database = sportsDAO;
 	}
 	
 	@Override
 	public ResponseEntity<?> getAllSports() {
 		List<Sport> allSports = database.getAllSports();
 		
-		if(allSports == null || allSports.size() == 0)
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		if(allSports == null)
+			return new ResponseEntity<List<Sport>>(HttpStatus.OK);
 		
 		return new ResponseEntity<List<Sport>>(allSports, HttpStatus.OK);
 	}
@@ -34,19 +33,8 @@ public class EsportService implements IEsportService {
 		Sport foundSport = database.getSportById(id);
 		
 		if(!foundSport.isValid())
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Sport>(foundSport, HttpStatus.NOT_FOUND);
 				
 		return new ResponseEntity<Sport>(foundSport, HttpStatus.OK);
 	}
-
-	@Override
-	public ResponseEntity<?> getSportByName(String name) {
-		Sport foundSport = database.getSportByName(name);
-		
-		if(!foundSport.isValid())
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		
-		return new ResponseEntity<Sport>(foundSport, HttpStatus.OK);
-	}
-
 }

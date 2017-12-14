@@ -5,5 +5,5 @@ import com.project.EsportSchedule.models.Event;
 
 public interface IEventsDAO {
 	public List<Event> getAllEvents();
-	public List<Event> getAllEventsByDate(int date, String name);
+	public List<Event> getAllEventsByDate(int date, String ids);
 }

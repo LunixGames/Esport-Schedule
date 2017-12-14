@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.EsportSchedule.services.IEventsService;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/events")
 public class EventsController {
+	
 	private IEventsService service;
 	
 	@Autowired
@@ -18,14 +19,16 @@ public class EventsController {
 		service = workService;
 	}
 	
-	@RequestMapping(value = "/events",method = RequestMethod.GET)
+	//GET All event
+	@RequestMapping(value = "",method = RequestMethod.GET)
 	public ResponseEntity<?> getAllEvents() {
 		return service.getAllEvents();
 	}
 	
-	@RequestMapping(value = "/events",params = "date",method = RequestMethod.GET)
+	//GET event between date and with esportid
+	@RequestMapping(value = "",params = "date",method = RequestMethod.GET)
 	public ResponseEntity<?> getAllEventsByDate(@RequestParam(value = "date",defaultValue = "0") int date,
-			@RequestParam(value = "esports", defaultValue = "") String name) {
-		return service.getAllEventsByDate(date, name);
+			@RequestParam(value = "esports", defaultValue = "") int[] ids) {
+		return service.getAllEventsByDate(date, ids);
 	}
 }
