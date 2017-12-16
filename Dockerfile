@@ -25,4 +25,4 @@ USER 1001
 
 EXPOSE 8080
 
- CMD ["/usr/libexec/s2i/usage"]
+CMD ["/usr/libexec/s2i/usage"]
