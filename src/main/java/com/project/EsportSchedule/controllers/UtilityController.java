@@ -8,7 +8,6 @@ public class UtilityController {
 	
 	@RequestMapping(value = "/{path:^(?!.*api)[^.]*$}")
 	public String redirect() {
-		System.out.println("REDIRECTION");
 		return "forward:/";
 	}
 }
