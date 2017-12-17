@@ -4,16 +4,17 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@org.springframework.context.annotation.Configuration
+@Configuration
 @PropertySource("file:src/main/resources/env.properties")
 @ComponentScan(basePackages="com.project.EsportSchedule")
-public class Configuration extends WebMvcConfigurerAdapter {	
+public class Configurations extends WebMvcConfigurerAdapter {	
 	@Value("${DATABASE_DB}")
 	private String dbName;
 	
@@ -48,6 +49,8 @@ public class Configuration extends WebMvcConfigurerAdapter {
     
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/index.html");
+        registry
+        	.addViewController("/")
+        	.setViewName("forward:/index.html");
     }
 }
