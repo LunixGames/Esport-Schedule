@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class UtilityController {
 	
-	@RequestMapping(value = "/{path:(^|\\n)(?!api)[^.]*$}")
+	@RequestMapping(value = "/{path:^(?!.*api)[^.]*$}")
 	public String redirect() {
 		System.out.println("REDIRECTION");
 		return "forward:/";
